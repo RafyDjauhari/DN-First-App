@@ -10,9 +10,21 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "ServiceIn",
-      theme: ThemeData(primaryColor: Colors.yellow),
-      home: Text("Hey whatsup bro?"),
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.red,
+          title: Center(
+            child: Text("DN Service"),
+          ),
+        ),
+        body: Align(
+          child: ElevatedButton(
+            child: Text("asdasdas"),
+            onPressed: () {},
+          ),
+          alignment: AlignmentDirectional.bottomCenter,
+        ),
+      ),
     );
   }
 }
