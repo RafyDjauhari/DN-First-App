@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class Answer extends StatelessWidget {
   final VoidCallback selectHandler;
-  final String answersText;
+  final String answerText;
 
-  Answer(this.selectHandler, this.answersText);
+  Answer(this.selectHandler, this.answerText);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,7 +17,7 @@ class Answer extends StatelessWidget {
               MaterialStateProperty.all(Color.fromARGB(255, 54, 54, 54)),
         ),
         child: Text(
-          answersText,
+          answerText,
           style: TextStyle(
             fontSize: 16,
           ),

@@ -18,25 +18,29 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
+  var questions = [
+    {
+      "questionText": "What's your favorite animal?",
+      "answers": ["Lion", "Tortoise", "Cockatoo", "Shark"],
+    },
+    {
+      "questionText": "What's your favorite food?",
+      "answers": ["Fried rice", "Spaghetti", "Meatballs", "Ramen"],
+    },
+    {
+      "questionText": "What's your favorite sports?",
+      "answers": ["Swim", "Football", "Basketball", "Golf"],
+    }
+  ];
 
   void _answerQuestion() {
     setState(() {
-      if (_questionIndex == 1) {
-        _questionIndex = _questionIndex - 1;
-      } else {
-        _questionIndex = _questionIndex + 1;
-      }
+      _questionIndex = (_questionIndex + 1) % questions.length;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      "What's your favorite animal?",
-      "What's your favorite food?"
-    ];
-    var answers = ["Fried rice", "Ramen cup", "Soto Lamongan"];
-
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.red),
       home: Scaffold(
@@ -45,14 +49,17 @@ class _MyAppState extends State<MyApp> {
             child: Text("DN Service"),
           ),
         ),
-        body: Column(children: [
-          Question(
-            questions[_questionIndex],
-          ),
-          Answer(_answerQuestion, answers[0]),
-          Answer(_answerQuestion, answers[1]),
-          Answer(_answerQuestion, answers[2]),
-        ]),
+        body: Column(
+          children: [
+            Question(
+              questions[_questionIndex]["questionText"] as String,
+            ),
+            ...(questions[_questionIndex]["answers"] as List<String>)
+                .map((answer) {
+              return Answer(_answerQuestion, answer);
+            }).toList()
+          ],
+        ),
       ),
     );
   }
