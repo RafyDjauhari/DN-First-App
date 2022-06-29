@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'question.dart';
+import 'answer.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,10 +35,12 @@ class _MyAppState extends State<MyApp> {
       "What's your favorite animal?",
       "What's your favorite food?"
     ];
+    var answers = ["Fried rice", "Ramen cup", "Soto Lamongan"];
+
     return MaterialApp(
+      theme: ThemeData(primarySwatch: Colors.red),
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.red,
           title: Center(
             child: Text("DN Service"),
           ),
@@ -46,33 +49,9 @@ class _MyAppState extends State<MyApp> {
           Question(
             questions[_questionIndex],
           ),
-          ElevatedButton(
-            child: Text("Answer 1"),
-            onPressed: _answerQuestion,
-          ),
-          ElevatedButton(
-              child: Text("Answer 2"),
-              onPressed: () {
-                setState(() {
-                  if (_questionIndex == 1) {
-                    _questionIndex = _questionIndex - 1;
-                  } else {
-                    _questionIndex = _questionIndex + 1;
-                  }
-                });
-              }),
-          ElevatedButton(
-            child: Text("Answer 3"),
-            onPressed: () {
-              setState(() {
-                if (_questionIndex == 1) {
-                  _questionIndex = _questionIndex - 1;
-                } else {
-                  _questionIndex = _questionIndex + 1;
-                }
-              });
-            },
-          ),
+          Answer(_answerQuestion, answers[0]),
+          Answer(_answerQuestion, answers[1]),
+          Answer(_answerQuestion, answers[2]),
         ]),
       ),
     );
