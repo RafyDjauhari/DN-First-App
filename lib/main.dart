@@ -18,7 +18,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
-  var questions = [
+  static const questions = [
     {
       "questionText": "What's your favorite animal?",
       "answers": ["Lion", "Tortoise", "Cockatoo", "Shark"],
@@ -30,12 +30,16 @@ class _MyAppState extends State<MyApp> {
     {
       "questionText": "What's your favorite sports?",
       "answers": ["Swim", "Football", "Basketball", "Golf"],
+    },
+    {
+      "questionText": "What's your favorite country?",
+      "answers": ["Indonesia", "Japan", "Englend", "Netherlands"],
     }
   ];
 
   void _answerQuestion() {
     setState(() {
-      _questionIndex = (_questionIndex + 1) % questions.length;
+      _questionIndex = _questionIndex + 1;
     });
   }
 
@@ -49,17 +53,21 @@ class _MyAppState extends State<MyApp> {
             child: Text("DN Service"),
           ),
         ),
-        body: Column(
-          children: [
-            Question(
-              questions[_questionIndex]["questionText"] as String,
-            ),
-            ...(questions[_questionIndex]["answers"] as List<String>)
-                .map((answer) {
-              return Answer(_answerQuestion, answer);
-            }).toList()
-          ],
-        ),
+        body: _questionIndex < questions.length
+            ? Column(
+                children: [
+                  Question(
+                    questions[_questionIndex]["questionText"] as String,
+                  ),
+                  ...(questions[_questionIndex]["answers"] as List<String>)
+                      .map((answer) {
+                    return Answer(_answerQuestion, answer);
+                  }).toList()
+                ],
+              )
+            : Center(
+                child: Text("You fucking did it!!!"),
+              ),
       ),
     );
   }
