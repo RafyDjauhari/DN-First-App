@@ -1,7 +1,8 @@
+import 'package:first_app/result.dart';
 import 'package:flutter/material.dart';
 
-import 'question.dart';
-import 'answer.dart';
+import 'quiz.dart';
+import 'result.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,28 +19,59 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
-  static const questions = [
+  var _totalScore = 0;
+  static const _questions = [
     {
-      "questionText": "What's your favorite animal?",
-      "answers": ["Lion", "Tortoise", "Cockatoo", "Shark"],
+      "questionText": "5 + 5 = ...",
+      "answers": [
+        {"text": "2", "score": 1},
+        {"text": "5", "score": 5},
+        {"text": "7", "score": 7},
+        {"text": "10", "score": 10},
+      ],
     },
     {
-      "questionText": "What's your favorite food?",
-      "answers": ["Fried rice", "Spaghetti", "Meatballs", "Ramen"],
+      "questionText": "20 - 7 = ...",
+      "answers": [
+        {"text": "6", "score": 1},
+        {"text": "19", "score": 5},
+        {"text": "13", "score": 10},
+        {"text": "10", "score": 7},
+      ],
     },
     {
-      "questionText": "What's your favorite sports?",
-      "answers": ["Swim", "Football", "Basketball", "Golf"],
+      "questionText": "12 x 3 = ...",
+      "answers": [
+        {"text": "36", "score": 10},
+        {"text": "8", "score": 1},
+        {"text": "24", "score": 5},
+        {"text": "30", "score": 7},
+      ],
     },
     {
-      "questionText": "What's your favorite country?",
-      "answers": ["Indonesia", "Japan", "Englend", "Netherlands"],
+      "questionText": "5 : 5 = ...",
+      "answers": [
+        {"text": "25", "score": 1},
+        {"text": "1", "score": 10},
+        {"text": "4", "score": 7},
+        {"text": "10", "score": 5},
+      ],
     }
   ];
 
-  void _answerQuestion() {
+  void _answerQuestion(int score) {
+    _totalScore += score;
     setState(() {
+      // This is for looping the questions
+      // -questionIndex = (_questionIndex + 1) % _questions.length;
       _questionIndex = _questionIndex + 1;
+    });
+  }
+
+  void _restartQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
     });
   }
 
@@ -53,21 +85,13 @@ class _MyAppState extends State<MyApp> {
             child: Text("DN Service"),
           ),
         ),
-        body: _questionIndex < questions.length
-            ? Column(
-                children: [
-                  Question(
-                    questions[_questionIndex]["questionText"] as String,
-                  ),
-                  ...(questions[_questionIndex]["answers"] as List<String>)
-                      .map((answer) {
-                    return Answer(_answerQuestion, answer);
-                  }).toList()
-                ],
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                answerQuestion: _answerQuestion,
+                questionIndex: _questionIndex,
+                questions: _questions,
               )
-            : Center(
-                child: Text("You fucking did it!!!"),
-              ),
+            : Result(resultScore: _totalScore, selectHandler: _restartQuiz),
       ),
     );
   }
